@@ -1,0 +1,18 @@
+from dissect.esedb import EseDB
+
+path = r"C:\Users\Het\Desktop\windows\Windows.edb"
+terms = ("tainsworth", "password", "diogenes", "ext-0419")
+
+with open(path, "rb") as fh:
+    db = EseDB(fh)
+
+    for table in db.tables():
+        try:
+            for record in table.records():
+                output = str(record)
+                if any(term in output.lower() for term in terms):
+                    print("TABLE:", table.name)
+                    print(output)
+                    print("=" * 80)
+        except Exception:
+            pass
